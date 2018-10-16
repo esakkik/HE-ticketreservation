@@ -10,8 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.*;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static java.util.stream.Collectors.toList;
@@ -20,9 +20,9 @@ import static java.util.stream.Collectors.toList;
 public class TheaterSearviceImpl implements TheaterService {
 
     @Autowired
-    TheaterRepository theaterRepository;
+    private TheaterRepository theaterRepository;
     @Autowired
-    SeatRepository seatRepository;
+    private SeatRepository seatRepository;
 
     @Override
     public Optional<Theater> getTheaterById(Long id) {
@@ -33,13 +33,11 @@ public class TheaterSearviceImpl implements TheaterService {
     @Transactional
     public Theater createTheater(TheaterSeatDTO theaterSeatDTO) {
         Theater theaterSave = new Theater(theaterSeatDTO.getName());
-        System.out.println("------------------------- 111THEATER ID --------------------" + theaterSave.getName());
+        theaterSave.setCreatedAt(LocalDateTime.now());
+        theaterSave.setUpdatedAt(LocalDateTime.now());
         Theater theater = theaterRepository.save(theaterSave);
-        System.out.println("------------------------- 2222THEATER ID --------------------" + theater.getId());
         List<Seat> seatList = seatInfoToSeat(theaterSeatDTO.getSeatInfo());
-        System.out.println("------------------------- 3333THEATER ID --------------------" + seatList.get(1).getRow());
         seatList.forEach(seat -> {
-            System.out.println("------------------------- THEATER ID --------------------" + theaterSave.getName());
             seat.setTheater(theaterSave);
             seatRepository.save(seat);
         });
@@ -48,7 +46,7 @@ public class TheaterSearviceImpl implements TheaterService {
 
     @Override
     public Iterable<Seat> getSeatListByTheater(Long theaterId) {
-        return seatRepository.findAll();
+        return seatRepository.findAllByTheaterTest(theaterId);
     }
 
 
@@ -60,13 +58,13 @@ public class TheaterSearviceImpl implements TheaterService {
            int[] aisleSeats = seatInfo.getValue().getAisleSeats();
            List<Seat> seats = new ArrayList<>();
             for (int i = 1; i <= numberOfSeats; i++) {
-                System.out.println("---- => i" + seatInfo.getValue().getNumberOfSeats() + " ===== i = " + i);
                 Seat s = new Seat();
-                s.setRow(row);
-                s.setColumn(i);
+                s.setSeatRow(row);
+                s.setSeatNo(i);
                 int finalI = i;
                 s.setAisle(IntStream.of(aisleSeats).anyMatch(x -> finalI == x));
-                System.out.println("BEFORE NULL = " + s.getColumn());
+                s.setCreatedAt(LocalDateTime.now());
+                s.setUpdatedAt(LocalDateTime.now());
                 seats.add(s);
             }
             return seats;

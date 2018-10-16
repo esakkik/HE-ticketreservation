@@ -11,15 +11,51 @@ public class ReservedSeat {
     @GeneratedValue
     private Long Id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "reservation_id")
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "reservationId")
     private Reservation reservation;
 
-    @ManyToMany
-    @JoinColumn(name = "theater_id")
-    private List<Theater> theater;
+    @OneToOne
+    @JoinColumn(name = "theaterId")
+    private Theater theater;
 
-    @ManyToMany
-    @JoinColumn(name = "seat_id")
-    private List<Seat> seat;
+    @OneToOne
+    @JoinColumn(name = "seatId")
+    private Seat seat;
+
+
+    public ReservedSeat() {
+    }
+
+    public Long getId() {
+        return Id;
+    }
+
+    public void setId(Long id) {
+        Id = id;
+    }
+
+    public Reservation getReservation() {
+        return reservation;
+    }
+
+    public void setReservation(Reservation reservation) {
+        this.reservation = reservation;
+    }
+
+    public Theater getTheater() {
+        return theater;
+    }
+
+    public void setTheater(Theater theater) {
+        this.theater = theater;
+    }
+
+    public Seat getSeat() {
+        return seat;
+    }
+
+    public void setSeat(Seat seat) {
+        this.seat = seat;
+    }
 }

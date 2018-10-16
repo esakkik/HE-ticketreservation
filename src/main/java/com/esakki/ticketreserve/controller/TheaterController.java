@@ -5,20 +5,16 @@ import com.esakki.ticketreserve.model.dto.TheaterSeatDTO;
 import com.esakki.ticketreserve.model.entity.Seat;
 import com.esakki.ticketreserve.model.entity.Theater;
 import com.esakki.ticketreserve.service.TheaterService;
-import com.fasterxml.jackson.databind.deser.std.JsonNodeDeserializer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(path = "/screens")
 public class TheaterController {
 
     @Autowired
-    TheaterService theaterService;
+    private TheaterService theaterService;
 
     @GetMapping(value = "/{id}", produces = "application/json")
     public Theater getTheaterById(@PathVariable("id") Long id) {

@@ -4,7 +4,6 @@ import com.esakki.ticketreserve.model.dto.TheaterSeatDTO;
 import com.esakki.ticketreserve.model.entity.Seat;
 import com.esakki.ticketreserve.model.entity.Theater;
 
-import java.util.List;
 import java.util.Optional;
 
 public interface TheaterService {

@@ -1,5 +1,8 @@
 package com.esakki.ticketreserve.model.entity;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 
 @Entity
@@ -9,16 +12,17 @@ public class Seat {
     @GeneratedValue
     private Long Id;
     private String row;
-    private String column;
+    private int column;
     private boolean isAisle;
     @ManyToOne
     @JoinColumn(name = "theaterId")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Theater theater;
 
     public Seat() {
     }
 
-    public Seat(String row, String column, boolean isAisle) {
+    public Seat(String row, int column, boolean isAisle) {
         this.row = row;
         this.column = column;
         this.isAisle = isAisle;
@@ -40,11 +44,11 @@ public class Seat {
         this.row = row;
     }
 
-    public String getColumn() {
+    public int getColumn() {
         return column;
     }
 
-    public void setColumn(String column) {
+    public void setColumn(int column) {
         this.column = column;
     }
 
@@ -54,5 +58,13 @@ public class Seat {
 
     public void setAisle(boolean aisle) {
         isAisle = aisle;
+    }
+
+    public Theater getTheater() {
+        return theater;
+    }
+
+    public void setTheater(Theater theater) {
+        this.theater = theater;
     }
 }

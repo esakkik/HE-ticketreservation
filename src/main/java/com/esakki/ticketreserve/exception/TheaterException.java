@@ -15,9 +15,8 @@ import java.util.Date;
 public class TheaterException extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(TheaterNotFoundException.class)
-    public final ResponseEntity<ErrorDetails> handleTheaterNotFoundException(TheaterNotFoundException ex, WebRequest request) {
-        ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(),
-                request.getDescription(false));
-        return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
+    public final ResponseEntity<ApiError> handleTheaterNotFoundException(TheaterNotFoundException ex, WebRequest request) {
+        HttpStatus httpStatus = HttpStatus.NOT_FOUND;
+        return new ResponseEntity<>(new ApiError(httpStatus, ex), httpStatus);
     }
 }
